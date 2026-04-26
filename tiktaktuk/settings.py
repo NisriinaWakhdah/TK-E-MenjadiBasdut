@@ -26,12 +26,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-b_e!dsyac)3s4pt^*b0h61)b8!i5xx8111p$&ccp1p!*4z4aqn'
 
-PRODUCTION = os.getenv('PRODUCTION', 'False').lower() == 'true'
+ENV = os.getenv('ENV', 'development')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True').lower() == 'true'
 
-ALLOWED_HOSTS = ["localhost", "127.0.0.1"]
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
+
+ENV = os.getenv('ENV', 'development')
 
 
 # Application definition
@@ -79,8 +81,7 @@ WSGI_APPLICATION = 'tiktaktuk.wsgi.application'
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
 # Database configuration
-if PRODUCTION:
-    # Production: gunakan PostgreSQL dengan kredensial dari environment variables
+if ENV == 'production':
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql',
@@ -92,6 +93,17 @@ if PRODUCTION:
             'OPTIONS': {
                 'options': f"-c search_path={os.getenv('SCHEMA', 'public')}"
             }
+        }
+    }
+elif ENV == 'ci' :
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
+            'NAME': 'test_db',
+            'USER': 'test_user',
+            'PASSWORD': 'test_password',
+            'HOST': 'localhost',
+            'PORT': '5432',
         }
     }
 else:
