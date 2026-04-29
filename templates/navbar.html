@@ -1,0 +1,63 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="#">TikTakTuk</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                
+                {% if not role or role == 'guest' %}
+                    <li class="nav-item"><a class="nav-link" href="#">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Registrasi</a></li>
+                {% endif %}
+
+                {% if role == 'admin' %}
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Kategori Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Semua Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                {% endif %}
+
+                {% if role == 'organizer' %}
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Event Saya</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Kategori Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Semua Order</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                {% endif %}
+
+                {% if role == 'customer' %}
+                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Tiket Saya</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Pesanan</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="#">Cari Event</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Promosi</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Venue</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">Artis</a></li>
+                {% endif %}
+            </ul>
+
+            <ul class="navbar-nav">
+                {% if role == 'admin' or role == 'organizer' %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-primary ms-2" href="#">Profile</a>
+                    </li>
+                {% elif role == 'customer' %}
+                    <li class="nav-item">
+                        <a class="btn btn-outline-danger ms-2" href="#">Logout</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
