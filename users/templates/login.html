@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Login - TikTakTuk{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+{% include 'custom_theme.html' %}
+<div style="min-height: 80vh; display: flex; align-items: center; justify-content: center;">
+    <div style="width: 100%; max-width: 420px; text-align: center;">
+        
+        <!-- Logo & Title -->
+        <div style="margin-bottom: 2rem;">
+            <div style="width: 56px; height: 56px; background: #2563eb; color: white; border-radius: 12px; display: inline-flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 1.75rem; font-weight: 700; margin-bottom: 1rem; box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);">
+                TT
+            </div>
+            <h1 style="font-family: 'Outfit', sans-serif; font-size: 1.75rem; color: var(--text-primary); margin-bottom: 0.25rem;">TikTakTuk</h1>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">Platform Manajemen Pertunjukan & Tiket</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="glass-panel" style="text-align: left; padding: 2.5rem 2rem; background: var(--bg-secondary); border-radius: 16px;">
+            <h2 style="font-size: 1.15rem; font-family: 'Inter', sans-serif; margin-bottom: 0.25rem; font-weight: 700;">Masuk ke Akun Anda</h2>
+            <p style="color: var(--text-secondary); font-size: 0.8rem; margin-bottom: 2rem;">Gunakan kredensial Anda untuk mengakses platform</p>
+            
+            <form method="POST" action="{% url 'login' %}">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="username" class="form-label" style="font-size: 0.8rem; font-weight: 600;">Username</label>
+                    <input type="text" id="username" name="username" class="form-control" placeholder="Masukkan username" required style="background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); font-size: 0.9rem;">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 2rem;">
+                    <label for="password" class="form-label" style="font-size: 0.8rem; font-weight: 600;">Password</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Masukkan password" required style="background: rgba(255, 255, 255, 0.03); border-color: rgba(255, 255, 255, 0.1); font-size: 0.9rem;">
+                </div>
+                
+                <button type="submit" class="btn" style="width: 100%; padding: 0.875rem; background: var(--text-primary); color: #0f1117; font-weight: 600; font-size: 0.9rem; border-radius: 8px;">
+                    Masuk
+                </button>
+            </form>
+        </div>
+        
+        <!-- Footer Link -->
+        <p style="margin-top: 2rem; color: var(--text-secondary); font-size: 0.85rem;">
+            Belum punya akun? <a href="/register" style="color: #60a5fa; font-weight: 600; text-decoration: none;">Daftar sekarang</a>
+        </p>
+    </div>
+</div>
+{% endblock %}
