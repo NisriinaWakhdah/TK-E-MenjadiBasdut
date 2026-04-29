@@ -3,6 +3,8 @@
 {% block title %}{% if artist %}Edit Artis{% else %}Tambah Artis Baru{% endif %} - TikTokTicket{% endblock %}
 
 {% block content %}
+{% include 'custom_theme.html' %}
+<div class="container fade-in-up" style="padding-top: 1rem; padding-bottom: 4rem;">
 <div class="page-header">
     <div>
         <a href="{% url 'artist_list' %}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
@@ -45,5 +47,6 @@
             </button>
         </div>
     </form>
+</div>
 </div>
 {% endblock %}

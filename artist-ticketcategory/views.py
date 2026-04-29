@@ -6,13 +6,13 @@ from django.http import Http404
 STATIC_ARTISTS = [
     {'id': str(uuid.uuid4()), 'name': 'Taylor Swift', 'genre': 'Pop'},
     {'id': str(uuid.uuid4()), 'name': 'Coldplay', 'genre': 'Alternative Rock'},
-    {'id': str(uuid.uuid4()), 'name': 'BLACKPINK', 'genre': 'K-Pop'},
+    {'id': str(uuid.uuid4()), 'name': 'Justin Bieber', 'genre': 'Pop'},
 ]
 
 STATIC_EVENTS = [
     {'id': str(uuid.uuid4()), 'name': 'Eras Tour Jakarta'},
     {'id': str(uuid.uuid4()), 'name': 'Music of the Spheres'},
-    {'id': str(uuid.uuid4()), 'name': 'BORN PINK World Tour'},
+    {'id': str(uuid.uuid4()), 'name': 'JB World Tour'},
 ]
 
 STATIC_CATEGORIES = [
@@ -20,7 +20,6 @@ STATIC_CATEGORIES = [
     {'id': str(uuid.uuid4()), 'event_id': STATIC_EVENTS[0]['id'], 'name': 'Festival A', 'price': 2500000, 'quota': 2000, 'event_name': STATIC_EVENTS[0]['name']},
     {'id': str(uuid.uuid4()), 'event_id': STATIC_EVENTS[1]['id'], 'name': 'Tribune 1', 'price': 1500000, 'quota': 1500, 'event_name': STATIC_EVENTS[1]['name']},
 ]
-
 
 def artist_list(request):
     if not request.user.is_authenticated:

@@ -3,6 +3,8 @@
 {% block title %}{% if category %}Edit Kategori Tiket{% else %}Tambah Kategori Tiket Baru{% endif %} - TikTokTicket{% endblock %}
 
 {% block content %}
+{% include 'custom_theme.html' %}
+<div class="container fade-in-up" style="padding-top: 1rem; padding-bottom: 4rem;">
 <div class="page-header">
     <div>
         <a href="{% url 'ticket_category_list' %}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
@@ -20,7 +22,6 @@
 </div>
 
 <div class="glass-panel" style="max-width: 600px;">
-    <!-- If there are any validation errors (e.g. quota exceeds venue capacity) they will be shown here -->
     {% if form_errors %}
     <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
         <h4 style="color: var(--danger); margin-bottom: 0.5rem; font-family: 'Inter';">Gagal Menyimpan</h4>
@@ -78,5 +79,6 @@
             </button>
         </div>
     </form>
+</div>
 </div>
 {% endblock %}
