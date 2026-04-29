@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Tiket - {{ event_name }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-50 font-sans text-gray-900">
+
+    <div class="max-w-6xl mx-auto p-6">
+        <div class="flex justify-between items-center mb-8">
+            <h1 class="text-2xl font-bold">Checkout Tiket</h1>
+            <div class="text-sm text-gray-500">
+                <span class="text-blue-600 font-semibold">Pilih</span> &gt; Bayar &gt; Selesai
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <div class="lg:col-span-2 space-y-6">
+                
+                <div class="bg-white p-6 rounded-xl border border-gray-200 flex items-center gap-4">
+                    <div class="w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center text-white text-2xl">
+                        <i class="fa-solid fa-music"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-xl font-bold">Konser Melodi Senja</h2>
+                        <div class="flex gap-2 my-1">
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">Fourtwnty</span>
+                            <span class="text-xs bg-gray-100 px-2 py-1 rounded text-gray-600">Hindia</span>
+                        </div>
+                        <p class="text-sm text-gray-500 flex items-center gap-4">
+                            <span><i class="fa-regular fa-calendar mr-1"></i> 2024-05-15 - 19:00</span>
+                            <span><i class="fa-solid fa-location-dot mr-1"></i> Jakarta Convention Center</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-bold mb-1">Pilih Kategori Tiket</h3>
+                    <p class="text-xs text-gray-400 mb-4">Setiap kategori memiliki fasilitas berbeda</p>
+                    
+                    <div class="space-y-3">
+                        <div class="border rounded-lg p-4 flex justify-between items-center hover:border-blue-500 cursor-pointer transition">
+                            <div>
+                                <p class="font-bold">WVIP</p>
+                                <p class="text-xs text-gray-400">Kuota: 50 tiket</p>
+                            </div>
+                            <p class="font-bold text-blue-700">Rp 1,500,000</p>
+                        </div>
+
+                        <div class="border-2 border-blue-500 bg-blue-50 rounded-lg p-4 flex justify-between items-center">
+                            <div>
+                                <p class="font-bold">Category 2</p>
+                                <p class="text-xs text-gray-400">Kuota: 500 tiket</p>
+                            </div>
+                            <div class="flex items-center gap-3">
+                                <p class="font-bold text-blue-700">Rp 250,000</p>
+                                <div class="w-5 h-5 bg-blue-600 rounded-full flex items-center justify-center text-white text-[10px]">
+                                    <i class="fa-solid fa-check"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h3 class="font-bold mb-4">Jumlah Tiket</h3>
+                        <div class="flex items-center justify-center gap-6 border rounded-lg p-4">
+                            <button id="minus-btn" type="button" class="text-gray-400 text-xl font-bold">-</button>
+                            <span id="ticket-count" class="text-xl font-bold">2</span>
+                            <button id="plus-btn" class="text-gray-600 text-xl font-bold">+</button>
+                        </div>
+                        <p class="text-[10px] text-gray-400 mt-2 text-center">Max 10 tiket per transaksi</p>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-gray-200">
+                        <h3 class="font-bold mb-4">Pilih Kursi</h3>
+                        <div class="grid grid-cols-4 gap-2">
+                            {% for seat in seats%}
+                            <div class="text-[10px] border rounded py-2 text-center text-gray-500 hover:bg-blue-50 hover:border-blue-500 cursor-pointer">
+                                {{ seat }}
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-xl border border-gray-200">
+                    <h3 class="font-bold mb-4">Kode Promo</h3>
+                    <div class="flex gap-2">
+                        <input type="text" placeholder="CONTOH: TIKTAK20" class="flex-1 border rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-blue-500">
+                        <button class="bg-gray-100 text-gray-600 px-6 py-2 rounded-lg text-sm font-semibold">Terapkan</button>
+                    </div>
+                    <p class="text-red-500 text-[10px] mt-1 italic">Kode promo tidak valid.</p>
+                </div>
+
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="bg-white p-6 rounded-xl border border-gray-200 sticky top-6">
+                    <h3 class="font-bold mb-6">Ringkasan Pesanan</h3>
+                    
+                    <div class="space-y-4 text-sm mb-6">
+                        <div class="flex justify-between text-gray-500">
+                            <span>Category 2 x 2</span>
+                            <span>Rp 500,000</span>
+                        </div>
+                        <div class="flex justify-between text-gray-500">
+                            <span>Biaya Layanan</span>
+                            <span>Rp 0</span>
+                        </div>
+                        <hr>
+                        <div class="flex justify-between font-bold text-lg">
+                            <span>Total</span>
+                            <span>Rp 500,000</span>
+                        </div>
+                    </div>
+
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full bg-blue-600 text-white py-3 rounded-xl font-bold hover:bg-blue-700 transition">
+                            Bayar Sekarang
+                        </button>
+                    </form>
+                    <p class="text-[10px] text-gray-400 mt-4 text-center">Konfirmasi tiket akan dikirim ke admin@example.com</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // Ambil elemen-elemen berkaitan jumlah tiket
+        const plusBtn = document.getElementById('plus-btn');
+        const minusBtn = document.getElementById('minus-btn');
+        const ticketCount = document.getElementById('ticket-count');
+
+        // Batas minimum dan maksimum
+        const minTickets = 1;
+        const maxTickets = 10;
+
+        // Fungsi untuk tombol Tambah (+)
+        plusBtn.addEventListener('click', () => {
+            let currentCount = parseInt(ticketCount.innerText);
+            if (currentCount < maxTickets) {
+                ticketCount.innerText = currentCount + 1;
+            } else {
+                alert("Maksimal pembelian adalah 10 tiket");
+            }
+        });
+
+        // Fungsi untuk tombol Kurang (-)
+        minusBtn.addEventListener('click', () => {
+            let currentCount = parseInt(ticketCount.innerText);
+            if (currentCount > minTickets) {
+                ticketCount.innerText = currentCount - 1;
+            }
+        });
+    </script>
+</body>
+</html>
