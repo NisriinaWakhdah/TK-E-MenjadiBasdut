@@ -258,3 +258,187 @@ def customer_dashboard(request):
     }
     
     return render(request, 'dashboard_customer.html', context)
+
+def profile_customer(request):
+    user_id = request.session.get('user_id')
+
+    if not user_id or request.session.get('role') != 'customer':
+        messages.error(request, "Silakan login sebagai Customer untuk mengakses profil.")
+        return redirect('login')
+    
+    user_data = next((u for u in STATIC_USERS if u['id'] == user_id), None)
+
+    if not user_data:
+        messages.error(request, "Data user tidak ditemukan.")
+        return redirect('login')
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        # =========================
+        # UPDATE USERNAME
+        # =========================
+        if action == 'update_username':
+            new_username = request.POST.get('username', '').strip()
+
+            if not new_username:
+                messages.error(request, "Username tidak boleh kosong.")
+            
+            elif any(u['username'] == new_username and u['id'] != user_id for u in STATIC_USERS):
+                messages.error(request, "Username sudah digunakan.")
+            
+            else:
+                user_data['username'] = new_username
+                request.session['username'] = new_username
+                request.session['display_name'] = new_username 
+                messages.success(request, "Username berhasil diperbarui.")
+
+            return redirect('profile_customer')  
+
+        # =========================
+        # UPDATE PASSWORD
+        # =========================
+        elif action == 'update_password':
+            old_pass = request.POST.get('old_password', '')
+            new_pass = request.POST.get('new_password', '')
+            confirm_pass = request.POST.get('confirm_password', '')
+
+            if not all([old_pass, new_pass, confirm_pass]):
+                messages.error(request, "Semua field password harus diisi.")
+
+            elif old_pass != user_data['password']:
+                messages.error(request, "Password lama salah.")
+
+            elif new_pass != confirm_pass:
+                messages.error(request, "Konfirmasi password tidak cocok.")
+
+            elif len(new_pass) < 6:
+                messages.error(request, "Password minimal 6 karakter.")
+
+            else:
+                user_data['password'] = new_pass
+                messages.success(request, "Password berhasil diperbarui.")
+
+            return redirect('profile_customer')
+
+    return render(request, 'profile_customer.html', {
+        'user': user_data
+    })
+
+def profile_organizer(request):
+    user_id = request.session.get('user_id')
+
+    if not user_id or request.session.get('role') != 'organizer':
+        messages.error(request, "Silakan login sebagai Organizer untuk mengakses profil.")
+        return redirect('login')
+    
+    # Cari data user di STATIC_USERS
+    user_data = next((u for u in STATIC_USERS if u['id'] == user_id), None)
+
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        # =========================
+        # UPDATE INFORMASI PROFIL
+        # =========================
+        if action == 'update_profile':
+            new_name = request.POST.get('organizer_name', '').strip()
+            new_email = request.POST.get('email', '').strip()
+
+            if not new_name or not new_email:
+                messages.error(request, "Nama Organizer dan Email tidak boleh kosong.")
+            else:
+                user_data['organizer_name'] = new_name
+                user_data['email'] = new_email
+
+                request.session['display_name'] = new_name
+                request.session['email'] = new_email
+                messages.success(request, "Profil berhasil diperbarui.")
+            return redirect('profile_organizer')
+
+        # =========================
+        # UPDATE PASSWORD
+        # =========================
+        elif action == 'update_password':
+            old_pass = request.POST.get('old_password', '')
+            new_pass = request.POST.get('new_password', '')
+            confirm_pass = request.POST.get('confirm_password', '')
+
+            if old_pass != user_data['password']:
+                messages.error(request, "Password lama salah.")
+            elif new_pass != confirm_pass:
+                messages.error(request, "Konfirmasi password tidak cocok.")
+            elif len(new_pass) < 6:
+                messages.error(request, "Password minimal 6 karakter.")
+            else:
+                user_data['password'] = new_pass
+                messages.success(request, "Password berhasil diperbarui.")
+            return redirect('profile_organizer')
+
+    return render(request, 'profile_organizer.html', {'user': user_data})
+
+def profile_admin(request):
+    user_id = request.session.get('user_id')
+
+    if not user_id or request.session.get('role') != 'admin':
+        messages.error(request, "Silakan login sebagai Admin untuk mengakses profil.")
+        return redirect('login')
+
+    user_data = next((u for u in STATIC_USERS if u['id'] == user_id), None)
+
+    if not user_data:
+        messages.error(request, "Data user tidak ditemukan.")
+        return redirect('login')
+    
+    if request.method == 'POST':
+        action = request.POST.get('action')
+
+        # =========================
+        # UPDATE USERNAME
+        # =========================
+        if action == 'update_username':
+            new_username = request.POST.get('username', '').strip()
+
+            if not new_username:
+                messages.error(request, "Username tidak boleh kosong.")
+
+            elif any(u['username'] == new_username and u['id'] != user_id for u in STATIC_USERS):
+                messages.error(request, "Username sudah digunakan.")
+
+            else:
+                user_data['username'] = new_username
+                request.session['username'] = new_username
+                request.session['display_name'] = new_username
+                messages.success(request, "Username berhasil diperbarui.")
+
+            return redirect('profile_admin')
+
+        # =========================
+        # UPDATE PASSWORD
+        # =========================
+        elif action == 'update_password':
+            old_pass = request.POST.get('old_password', '')
+            new_pass = request.POST.get('new_password', '')
+            confirm_pass = request.POST.get('confirm_password', '')
+
+            if not all([old_pass, new_pass, confirm_pass]):
+                messages.error(request, "Semua field password harus diisi.")
+
+            elif old_pass != user_data['password']:
+                messages.error(request, "Password lama salah.")
+
+            elif new_pass != confirm_pass:
+                messages.error(request, "Konfirmasi password tidak cocok.")
+
+            elif len(new_pass) < 6:
+                messages.error(request, "Password minimal 6 karakter.")
+
+            else:
+                user_data['password'] = new_pass
+                messages.success(request, "Password berhasil diperbarui.")
+
+            return redirect('profile_admin')
+
+    return render(request, 'profile_admin.html', {
+        'user': user_data
+    })

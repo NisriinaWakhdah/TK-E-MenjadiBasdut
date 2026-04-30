@@ -12,4 +12,7 @@ urlpatterns = [
     path('dashboard/admin/', views.admin_dashboard, name='dashboard-admin'),
     path('dashboard/organizer/', views.organizer_dashboard, name='dashboard-organizer'),
     path('dashboard/customer/', views.customer_dashboard, name='dashboard-customer'),
+    path('profile/customer/', views.profile_customer, name='profile-customer'),
+    path('profile/organizer/', views.profile_organizer, name='profile-organizer'),
+    path('profile/admin/', views.profile_admin, name='profile-admin'),
 ]

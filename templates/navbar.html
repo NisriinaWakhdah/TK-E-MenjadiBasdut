@@ -1,7 +1,7 @@
 {% with role=request.session.role|default:'guest' %}
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#"
+        <a href="{% url 'homepage' %}" class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#"
             style="color: var(--accent-primary) !important;">
             <div
                 style="width: 32px; height: 32px; background: var(--accent-primary); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;">
@@ -18,13 +18,13 @@
                 {% if role == 'admin' %}
                 <li class="nav-item"><a class="nav-link" href="{% url 'dashboard-admin' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'manage_seats' %}">Manajemen Kursi</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'orders-admin' %}">Semua Order</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'admin-promotion-list' %}">Order (Aset)</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile-admin' %}">Profile</a></li>
                 {% endif %}
 
                 {% if role == 'organizer' %}
@@ -37,7 +37,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'orders-organizer' %}">Semua Order</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'promotion-all' %}">Order (Aset)</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile-organizer' %}">Profile</a></li>
                 {% endif %}
 
                 {% if role == 'customer' %}
@@ -48,6 +48,7 @@
                 <li class="nav-item"><a class="nav-link" href="{% url 'promotion-all' %}">Promosi</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Venue</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'artist_list' %}">Artis</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'profile-customer' %}">Profile</a></li>
                 {% endif %}
             </ul>
 
