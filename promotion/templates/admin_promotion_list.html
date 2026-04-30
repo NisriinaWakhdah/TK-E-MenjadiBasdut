@@ -16,7 +16,7 @@
                 <h1 class="text-2xl font-bold text-gray-800">Manajemen Promosi</h1>
                 <p class="text-gray-500">Kelola kode promo dan kampanye diskon</p>
             </div>
-            <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-100">
+            <button onclick="toggleModal('createPromoModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-100">
                 <i class="fas fa-plus text-sm"></i> Buat Promo
             </button>
         </div>
@@ -111,6 +111,84 @@
         </div>
     </div>
 
+    <!-- MODAL CREATE PROMOTION (Sesuai Gambar 16.1) -->
+    <div id="createPromoModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center px-8 py-6 border-b border-gray-50">
+                    <h3 class="text-xl font-bold text-gray-800">Buat Promo Baru</h3>
+                    <button onclick="toggleModal('createPromoModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <form id="promoForm" class="px-8 py-6 space-y-5">
+                    <!-- Kode Promo -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Kode Promo</label>
+                        <input type="text" name="kode" required placeholder="CTH. TIKTAK20"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-300 font-mono">
+                    </div>
+
+                    <!-- Tipe Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tipe Diskon</label>
+                        <select name="tipe" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="PERSENTASE">Persentase (%)</option>
+                            <option value="NOMINAL">Nominal (Rp)</option>
+                        </select>
+                    </div>
+
+                    <!-- Nilai Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Nilai Diskon</label>
+                        <input type="number" name="nilai" min="1" required placeholder="cth. 20"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-300">
+                    </div>
+
+                    <!-- Tanggal (Grid) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Mulai</label>
+                            <input type="date" name="tgl_mulai" required id="tgl_mulai"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Berakhir</label>
+                            <input type="date" name="tgl_akhir" required id="tgl_akhir"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Batas Penggunaan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Batas Penggunaan</label>
+                        <input type="number" name="batas" min="1" required value="1"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="toggleModal('createPromoModal')"
+                            class="flex-1 px-6 py-3 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="flex-1 px-6 py-3 rounded-xl bg-indigo-400 hover:bg-indigo-500 font-bold text-white shadow-lg shadow-indigo-100 transition-all">
+                            Buat
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Script Filter & Search -->
     <script>
         function filterData() {
@@ -132,6 +210,29 @@
                 }
             });
         }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+        }
+
+        // Logic Form Submission & Validasi
+        document.getElementById('promoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const tglMulai = new Date(document.getElementById('tgl_mulai').value);
+            const tglAkhir = new Date(document.getElementById('tgl_akhir').value);
+
+            // Validasi Tanggal Berakhir >= Tanggal Mulai
+            if (tglAkhir < tglMulai) {
+                alert("Tanggal berakhir tidak boleh lebih kecil dari tanggal mulai!");
+                return;
+            }
+
+            alert("Promo berhasil dibuat🎉");
+            toggleModal('createPromoModal');
+            this.reset();
+        });
     </script>
 </body>
 </html>
