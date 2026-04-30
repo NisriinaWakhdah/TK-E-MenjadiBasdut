@@ -29,12 +29,6 @@ def orders_view(request):
             'status': 'LUNAS',
             'total': '150,000'
         },
-        {
-            'order_id': 'ord_003',
-            'tanggal': '2024-04-12 10:00',
-            'status': 'PENDING',
-            'total': '450,000'
-        },
     ]
 
     # Menghitung statistik dari dummy list

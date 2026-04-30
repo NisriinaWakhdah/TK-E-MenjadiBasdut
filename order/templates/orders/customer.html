@@ -62,26 +62,6 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-50">
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 font-medium text-gray-600">ord_001</td>
-                            <td class="px-6 py-4 text-center text-gray-500">2024-04-10 14:32</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="inline-flex items-center gap-1 bg-green-50 text-green-600 px-3 py-1 rounded-md text-[10px] font-bold">
-                                    <i class="fa-regular fa-circle-check"></i> LUNAS
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-right font-bold text-gray-800">Rp 1,200,000</td>
-                        </tr>
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="px-6 py-4 font-medium text-gray-600">ord_002</td>
-                            <td class="px-6 py-4 text-center text-gray-500">2024-04-11 09:15</td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="inline-flex items-center gap-1 bg-green-50 text-green-600 px-3 py-1 rounded-md text-[10px] font-bold">
-                                    <i class="fa-regular fa-circle-check"></i> LUNAS
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-right font-bold text-gray-800">Rp 150,000</td>
-                        </tr>
                         {% for order in orders %}
                         <tr class="hover:bg-gray-50 transition">
                             <td class="px-6 py-4 font-medium text-gray-600">{{ order.order_id }}</td>

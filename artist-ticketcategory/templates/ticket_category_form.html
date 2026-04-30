@@ -1,0 +1,84 @@
+{% extends 'base.html' %}
+
+{% block title %}{% if category %}Edit Kategori Tiket{% else %}Tambah Kategori Tiket Baru{% endif %} - TikTokTicket{% endblock %}
+
+{% block content %}
+{% include 'custom_theme.html' %}
+<div class="container fade-in-up" style="padding-top: 1rem; padding-bottom: 4rem;">
+<div class="page-header">
+    <div>
+        <a href="{% url 'ticket_category_list' %}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Kembali ke Daftar Kategori
+        </a>
+        <h1 class="page-title">{% if category %}Edit Kategori Tiket{% else %}Tambah Kategori Baru{% endif %}</h1>
+        <p style="color: var(--text-secondary); margin-top: 0.5rem;">
+            {% if category %}Perbarui informasi kategori tiket yang sudah ada.{% else %}Tentukan kategori, harga, dan kuota tiket untuk acara Anda.{% endif %}
+        </p>
+    </div>
+</div>
+
+<div class="glass-panel" style="max-width: 600px;">
+    {% if form_errors %}
+    <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
+        <h4 style="color: var(--danger); margin-bottom: 0.5rem; font-family: 'Inter';">Gagal Menyimpan</h4>
+        <ul style="color: var(--text-secondary); margin-left: 1.5rem; font-size: 0.9rem;">
+            {% for error in form_errors %}
+            <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <form method="POST" action="{% if category %}{% url 'ticket_category_update' category.id %}{% else %}{% url 'ticket_category_create' %}{% endif %}">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label for="event_id" class="form-label">ACARA <span style="color: var(--danger);">*</span></label>
+            <select id="event_id" name="event_id" class="form-control" required>
+                <option value="" disabled {% if not category %}selected{% endif %}>-- Pilih Acara --</option>
+                {% for event in events %}
+                <option value="{{ event.id }}" {% if category and category.event_id == event.id %}selected{% endif %}>{{ event.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="name" class="form-label">NAMA KATEGORI TIKET <span style="color: var(--danger);">*</span></label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ category.name|default:'' }}" placeholder="Contoh: VIP, Festival, Tribune" required maxlength="50">
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2.5rem;">
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="price" class="form-label">HARGA (RP) <span style="color: var(--danger);">*</span></label>
+                <div style="position: relative;">
+                    <span style="position: absolute; left: 1rem; top: 50%; transform: translateY(-50%); color: var(--text-secondary); font-weight: 500;">Rp</span>
+                    <input type="number" id="price" name="price" class="form-control" value="{{ category.price|default:'' }}" placeholder="0" min="0" required style="padding-left: 2.5rem;">
+                </div>
+            </div>
+            
+            <div class="form-group" style="margin-bottom: 0;">
+                <label for="quota" class="form-label">KUOTA TIKET <span style="color: var(--danger);">*</span></label>
+                <input type="number" id="quota" name="quota" class="form-control" value="{{ category.quota|default:'' }}" placeholder="Jumlah tiket" min="1" required>
+                <small style="color: var(--text-secondary); display: block; margin-top: 0.5rem; font-size: 0.8rem;">Total kuota kategori tidak boleh melebihi kapasitas venue.</small>
+            </div>
+        </div>
+        
+        <div style="display: flex; gap: 1rem; justify-content: flex-end;">
+            <a href="{% url 'ticket_category_list' %}" class="btn btn-outline">Batal</a>
+            <button type="submit" class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                    <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                    <polyline points="7 3 7 8 15 8"></polyline>
+                </svg>
+                Simpan Kategori
+            </button>
+        </div>
+    </form>
+</div>
+</div>
+{% endblock %}

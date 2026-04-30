@@ -45,8 +45,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'tiktaktuk',
     'order',
+    'users',
 ]
 
 MIDDLEWARE = [
@@ -64,7 +66,12 @@ ROOT_URLCONF = 'tiktaktuk.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [
+            BASE_DIR / 'templates',
+            BASE_DIR / 'artist-ticketcategory' / 'templates',
+            BASE_DIR / 'users' / 'templates',
+            BASE_DIR / 'order' / 'templates',
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
