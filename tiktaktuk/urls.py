@@ -23,5 +23,6 @@ urlpatterns = [
     path('', include('users.urls')),
     path('', include('artist-ticketcategory.urls')),
     path('promotion/', include('promotion.urls')),
-
+    path('venue/', include('venue.urls')),
+    path('event/', include('event.urls')),
 ]

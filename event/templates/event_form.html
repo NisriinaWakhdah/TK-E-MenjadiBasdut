@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-header fade-in-up">
+        <h1 class="page-title">
+            {% if event %}Edit Acara{% else %}Buat Acara Baru{% endif %}
+        </h1>
+    </div>
+
+    <div class="glass-panel fade-in-up" style="animation-delay: 0.1s;">
+        <form action="#" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="form-label">Judul Acara</label>
+                        <input type="text" class="form-control" name="title" value="{{ event.title|default:'' }}" placeholder="Masukkan judul acara" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label class="form-label">Tanggal</label>
+                            <input type="date" class="form-control" name="date" value="{{ event.date|default:'' }}" required>
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label class="form-label">Waktu</label>
+                            <input type="time" class="form-control" name="time" value="{{ event.time|default:'' }}" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Venue</label>
+                        <select class="form-control" name="venue_name" required>
+                            <option value="">-- Pilih Venue --</option>
+                            <option value="Gelora Bung Karno" {% if event.venue_name == 'Gelora Bung Karno' %}selected{% endif %}>Gelora Bung Karno</option>
+                            <option value="ICE BSD" {% if event.venue_name == 'ICE BSD' %}selected{% endif %}>ICE BSD</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Artist / Performer</label>
+                        <input type="text" class="form-control" name="artists" value="{{ event.artists|default:'' }}" placeholder="Pisahkan dengan koma (contoh: Tulus, Raisa)" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Deskripsi Acara</label>
+                        <textarea class="form-control" name="description" rows="5" placeholder="Tuliskan deskripsi dan syarat ketentuan acara di sini..." required>{{ event.description|default:'' }}</textarea>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="glass-panel" style="background: rgba(255,255,255,0.02); padding: 1.5rem;">
+                        <h4 class="mb-3" style="font-size: 1.1rem;">Kategori Tiket</h4>
+                        <p class="text-secondary" style="font-size: 0.85rem; margin-bottom: 1rem;">
+                            Pastikan Anda sudah membuat Kategori Tiket di menu master data sebelum memilihnya di sini.
+                        </p>
+                        
+                        <div class="form-group">
+                            <div class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="cat1" style="margin-right: 10px;">
+                                <label for="cat1" class="text-secondary">VIP (Rp 2.500.000)</label>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="cat2" style="margin-right: 10px;">
+                                <label for="cat2" class="text-secondary">Festival (Rp 800.000)</label>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <input type="checkbox" id="cat3" style="margin-right: 10px;">
+                                <label for="cat3" class="text-secondary">Tribune (Rp 500.000)</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 mt-4" style="border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                <a href="{% url 'event_list' %}" class="btn btn-outline">Batal</a>
+                <button type="submit" class="btn btn-primary">
+                    {% if event %}Simpan Perubahan{% else %}Simpan Acara{% endif %}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
