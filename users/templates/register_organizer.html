@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div style="min-height:80vh; display:flex; align-items:center; justify-content:center; padding:2rem 0;">
+    <div style="width:100%; max-width:460px; text-align:center;">
+
+        <div style="margin-bottom:2rem;">
+            <div
+                style="width:56px; height:56px; background:#2563eb; color:white; border-radius:12px; display:inline-flex; align-items:center; justify-content:center; font-family:'Outfit',sans-serif; font-size:1.75rem; font-weight:700; margin-bottom:1rem; box-shadow:0 4px 14px rgba(37,99,235,0.4);">
+                TT</div>
+            <h1
+                style="font-family:'Outfit',sans-serif; font-size:1.75rem; color:var(--text-primary); margin-bottom:0.25rem;">
+                TikTakTuk</h1>
+            <p style="color:var(--text-secondary); font-size:0.9rem;">Daftar untuk Memulai</p>
+        </div>
+
+        <div class="glass-panel" style="text-align:left; padding:2rem;">
+            <a href="{% url 'register_role' %}"
+                style="color:var(--accent-primary); font-size:0.85rem; font-weight:600; display:inline-flex; align-items:center; gap:0.4rem; margin-bottom:1.25rem;">←
+                Kembali</a>
+
+            <h2 style="font-size:1.1rem; font-weight:700; margin-bottom:0.15rem;">Daftar sebagai Penyelenggara</h2>
+            <p style="color:var(--text-secondary); font-size:0.82rem; margin-bottom:1.75rem;">Buat akun baru untuk
+                memulai pengalaman Anda</p>
+
+            {% if messages %}
+            {% for msg in messages %}
+            {% if forloop.first %}
+            {% if msg.tags == 'error' %}
+            <div
+                style="padding:0.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:0.85rem; background:rgba(239,68,68,0.1); border:1px solid rgba(239,68,68,0.3); color:#fca5a5;">
+                {{ msg }}
+            </div>
+            {% else %}
+            <div
+                style="padding:0.75rem 1rem; border-radius:8px; margin-bottom:1rem; font-size:0.85rem; background:rgba(16,185,129,0.1); border:1px solid rgba(16,185,129,0.3); color:#6ee7b7;">
+                {{ msg }}
+            </div>
+            {% endif %}
+            {% endif %}
+            {% endfor %}
+            {% endif %}
+
+            <form method="POST" action="{% url 'register_organizer' %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label class="form-label">Nama Lengkap</label>
+                    <input type="text" name="organizer_name" class="form-control" placeholder="Masukkan nama lengkap"
+                        value="{{ form_data.organizer_name|default:'' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Email</label>
+                    <input type="email" name="email" class="form-control" placeholder="Masukkan email"
+                        value="{{ form_data.email|default:'' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Nomor Telepon</label>
+                    <input type="tel" name="phone" class="form-control" placeholder="Masukkan nomor telepon"
+                        value="{{ form_data.phone|default:'' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Username</label>
+                    <input type="text" name="username" class="form-control" placeholder="Pilih username"
+                        value="{{ form_data.username|default:'' }}" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Password</label>
+                    <input type="password" name="password" class="form-control" placeholder="Minimal 6 karakter"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Konfirmasi Password</label>
+                    <input type="password" name="confirm_password" class="form-control"
+                        placeholder="Konfirmasi password" required>
+                </div>
+
+                <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:1.5rem;">
+                    <input type="checkbox" name="agree" id="agree"
+                        style="width:16px; height:16px; accent-color:var(--accent-primary);">
+                    <label for="agree" style="font-size:0.85rem; color:var(--text-secondary); cursor:pointer;">
+                        Saya setuju dengan <a href="#" style="color:#60a5fa;">Syarat & Ketentuan</a>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%; padding:0.875rem;">Daftar</button>
+            </form>
+        </div>
+
+        <p style="margin-top:1.5rem; color:var(--text-secondary); font-size:0.85rem;">
+            Sudah punya akun? <a href="{% url 'login' %}" style="color:#60a5fa; font-weight:600;">Login di sini</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

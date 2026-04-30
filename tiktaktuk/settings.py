@@ -46,7 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
+    'tiktaktuk',
+    'order',
     'users',
+    'promotion',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +71,7 @@ TEMPLATES = [
             BASE_DIR / 'templates',
             BASE_DIR / 'artist-ticketcategory' / 'templates',
             BASE_DIR / 'users' / 'templates',
+            BASE_DIR / 'order' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

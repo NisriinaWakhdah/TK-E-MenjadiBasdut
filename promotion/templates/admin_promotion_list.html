@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Promosi Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-6 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header & Button Buat Promo (Hanya Admin) -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Manajemen Promosi</h1>
+                <p class="text-gray-500">Kelola kode promo dan kampanye diskon</p>
+            </div>
+            <button onclick="toggleModal('createPromoModal')" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-100">
+                <i class="fas fa-plus text-sm"></i> Buat Promo
+            </button>
+        </div>
+
+        <!-- Statistik Ringkasan -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Promo</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_promo }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Penggunaan</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_penggunaan }}x</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tipe Persentase</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_persentase }}</p>
+            </div>
+        </div>
+
+        <!-- Filter & Search -->
+        <div class="flex flex-wrap gap-4 mb-6">
+            <div class="relative flex-grow max-w-sm">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" onkeyup="filterData()" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm" placeholder="Cari kode promo...">
+            </div>
+            <select id="typeFilter" onchange="filterData()" 
+                class="block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg border">
+                <option value="SEMUA">Semua Tipe</option>
+                <option value="PERSENTASE">Persentase</option>
+                <option value="NOMINAL">Nominal</option>
+            </select>
+        </div>
+
+        <!-- Tabel Data -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Kode Promo</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Tipe</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Nilai Diskon</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mulai</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Berakhir</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Penggunaan</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="promoTableBody" class="divide-y divide-gray-100">
+                        {% for item in promosi %}
+                        <tr class="promo-row hover:bg-gray-50 transition-colors" data-type="{{ item.tipe }}">
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-xs">
+                                        <i class="fas fa-ticket-alt"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-800 tracking-tight">{{ item.kode }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold border 
+                                    {% if item.tipe == 'PERSENTASE' %} bg-purple-50 text-purple-600 border-purple-100 
+                                    {% else %} bg-orange-50 text-orange-600 border-orange-100 {% endif %}">
+                                    {{ item.tipe }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 font-semibold text-gray-700">{{ item.nilai }}</td>
+                            <td class="px-6 py-5 text-sm text-gray-500">{{ item.mulai }}</td>
+                            <td class="px-6 py-5 text-sm text-gray-500">{{ item.berakhir }}</td>
+                            <td class="px-6 py-5">
+                                <span class="text-sm font-medium text-gray-700">{{ item.terpakai }} / <span class="text-gray-400">{{ item.kuota }}</span></span>
+                            </td>
+                
+                            <td class="px-6 py-5">
+                                <div class="flex justify-center gap-2">
+                                    <button title="Update" onclick="openEditModal('{{ item.id }}', '{{ item.kode }}', '{{ item.tipe }}', '{{ item.nilai }}', '{{ item.mulai }}', 
+                                        '{{ item.berakhir }}', '{{ item.kuota }}')"
+                                        class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                    <button title="Delete" onclick="deletePromo('{{ item.id }}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL CREATE PROMOTION -->
+    <div id="createPromoModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center px-8 py-6 border-b border-gray-50">
+                    <h3 class="text-xl font-bold text-gray-800">Buat Promo Baru</h3>
+                    <button onclick="toggleModal('createPromoModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Form -->
+                <form id="promoForm" class="px-8 py-6 space-y-5">
+                    <!-- Kode Promo -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Kode Promo</label>
+                        <input type="text" name="kode" required placeholder="CTH. TIKTAK20"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-300 font-mono">
+                    </div>
+
+                    <!-- Tipe Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tipe Diskon</label>
+                        <select name="tipe" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="PERSENTASE">Persentase (%)</option>
+                            <option value="NOMINAL">Nominal (Rp)</option>
+                        </select>
+                    </div>
+
+                    <!-- Nilai Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Nilai Diskon</label>
+                        <input type="number" name="nilai" min="1" required placeholder="cth. 20"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all placeholder:text-gray-300">
+                    </div>
+
+                    <!-- Tanggal (Grid) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Mulai</label>
+                            <input type="date" name="tgl_mulai" required id="tgl_mulai"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Berakhir</label>
+                            <input type="date" name="tgl_akhir" required id="tgl_akhir"
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Batas Penggunaan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Batas Penggunaan</label>
+                        <input type="number" name="batas" min="1" required value="1"
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="toggleModal('createPromoModal')"
+                            class="flex-1 px-6 py-3 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="flex-1 px-6 py-3 rounded-xl bg-indigo-400 hover:bg-indigo-500 font-bold text-white shadow-lg shadow-indigo-100 transition-all">
+                            Buat
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL DELETE PROMOTION -->
+    <div id="deletePromoModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-2xl shadow-xl w-full max-w-sm overflow-hidden transform transition-all p-6">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-start mb-4">
+                    <h3 class="text-xl font-bold text-red-600">Hapus Promo</h3>
+                    <button onclick="toggleModal('deletePromoModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Modal Body -->
+                <div class="mb-8">
+                    <p class="text-gray-600 leading-relaxed">
+                        Apakah Anda yakin ingin menghapus kode promo ini? 
+                        <span class="block mt-1">Tindakan ini tidak dapat dibatalkan.</span>
+                    </p>
+                </div>
+
+                <!-- Modal Footer (Tombol) -->
+                <div class="flex justify-end gap-3">
+                    <button type="button" onclick="toggleModal('deletePromoModal')"
+                        class="px-6 py-2.5 rounded-lg border border-gray-200 font-semibold text-gray-600 hover:bg-gray-50 transition-all">
+                        Batal
+                    </button>
+                    <button id="confirmDeleteBtn"
+                        class="px-6 py-2.5 rounded-lg bg-red-600 hover:bg-red-700 font-semibold text-white shadow-md transition-all">
+                        Hapus
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL EDIT PROMOTION -->
+    <div id="editPromoModal" class="fixed inset-0 z-50 hidden overflow-y-auto">
+        <!-- Overlay -->
+        <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity"></div>
+        
+        <!-- Modal Content -->
+        <div class="flex items-center justify-center min-h-screen p-4">
+            <div class="bg-white rounded-3xl shadow-xl w-full max-w-md overflow-hidden transform transition-all">
+                <!-- Modal Header -->
+                <div class="flex justify-between items-center px-8 py-6 border-b border-gray-50">
+                    <h3 class="text-xl font-bold text-gray-800">Edit Promo</h3>
+                    <button onclick="toggleModal('editPromoModal')" class="text-gray-400 hover:text-gray-600">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+
+                <!-- Form Edit -->
+                <form id="editPromoForm" class="px-8 py-6 space-y-5">
+                    <input type="hidden" id="edit_id" name="id">
+                    
+                    <!-- Kode Promo -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Kode Promo</label>
+                        <input type="text" id="edit_kode" name="kode" required 
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all font-mono">
+                    </div>
+
+                    <!-- Tipe Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tipe Diskon</label>
+                        <select id="edit_tipe" name="tipe" required class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none bg-white">
+                            <option value="PERSENTASE">Persentase (%)</option>
+                            <option value="NOMINAL">Nominal (Rp)</option>
+                        </select>
+                    </div>
+
+                    <!-- Nilai Diskon -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Nilai Diskon</label>
+                        <input type="number" id="edit_nilai" name="nilai" min="1" required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <!-- Tanggal (Grid) -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Mulai</label>
+                            <input type="date" id="edit_tgl_mulai" name="tgl_mulai" required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                        <div>
+                            <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Tanggal Berakhir</label>
+                            <input type="date" id="edit_tgl_akhir" name="tgl_akhir" required
+                                class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                        </div>
+                    </div>
+
+                    <!-- Batas Penggunaan -->
+                    <div>
+                        <label class="block text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-2">Batas Penggunaan</label>
+                        <input type="number" id="edit_batas" name="batas" min="1" required
+                            class="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-blue-500 focus:outline-none transition-all">
+                    </div>
+
+                    <!-- Modal Footer -->
+                    <div class="flex gap-4 pt-4">
+                        <button type="button" onclick="toggleModal('editPromoModal')"
+                            class="flex-1 px-6 py-3 rounded-xl border border-gray-200 font-bold text-gray-500 hover:bg-gray-50 transition-all">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="flex-1 px-6 py-3 rounded-xl bg-blue-600 hover:bg-blue-700 font-bold text-white shadow-lg shadow-blue-100 transition-all">
+                            Simpan
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Filter & Search -->
+    <script>
+        function filterData() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const rows = document.querySelectorAll('.promo-row');
+
+            rows.forEach(row => {
+                const kode = row.querySelector('td:first-child').innerText.toLowerCase();
+                const type = row.getAttribute('data-type');
+
+                const matchesSearch = kode.includes(searchInput);
+                const matchesType = (typeFilter === 'SEMUA' || type === typeFilter);
+
+                if (matchesSearch && matchesType) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+
+        function toggleModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.toggle('hidden');
+        }
+
+        // Logic Form Submission & Validasi
+        document.getElementById('promoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const tglMulai = new Date(document.getElementById('tgl_mulai').value);
+            const tglAkhir = new Date(document.getElementById('tgl_akhir').value);
+
+            // Validasi Tanggal Berakhir >= Tanggal Mulai
+            if (tglAkhir < tglMulai) {
+                alert("Tanggal berakhir tidak boleh lebih kecil dari tanggal mulai!");
+                return;
+            }
+
+            alert("Promo berhasil dibuat🎉");
+            toggleModal('createPromoModal');
+            this.reset();
+        });
+
+        let selectedPromoId = null;
+
+        // Fungsi untuk menyiapkan penghapusan
+        function deletePromo(id) {
+            selectedPromoId = id; // Simpan ID promo yang akan dihapus
+            toggleModal('deletePromoModal');
+        }
+
+        document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            toggleModal('deletePromoModal');
+            alert("Promo berhasil dihapus🎉");
+
+            selectedPromoId = null;
+        });
+
+        // Fungsi untuk membuka modal edit dan mengisi datanya
+        function openEditModal(id, kode, tipe, nilai, mulai, berakhir, kuota) {
+            document.getElementById('edit_id').value = id;
+            document.getElementById('edit_kode').value = kode;
+            document.getElementById('edit_tipe').value = tipe;
+            document.getElementById('edit_nilai').value = nilai;
+            document.getElementById('edit_tgl_mulai').value = mulai;
+            document.getElementById('edit_tgl_akhir').value = berakhir;
+            document.getElementById('edit_batas').value = kuota;
+            
+            toggleModal('editPromoModal');
+        }
+
+        // Simpan Perubahan
+        document.getElementById('editPromoForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const tglMulai = new Date(document.getElementById('edit_tgl_mulai').value);
+            const tglAkhir = new Date(document.getElementById('edit_tgl_akhir').value);
+
+            // Validasi Tanggal
+            if (tglAkhir < tglMulai) {
+                alert("Tanggal berakhir tidak boleh lebih kecil dari tanggal mulai!");
+                return;
+            }
+
+            console.log("Memperbarui data promo ID:", document.getElementById('edit_id').value);
+            
+            alert("Promo berhasil diupdate🎉");
+            toggleModal('editPromoModal');
+        });
+    </script>
+</body>
+</html>
