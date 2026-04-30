@@ -13,18 +13,40 @@ STATIC_SEATS = [
 def manage_seats(request):
     role = request.session.get('role', 'admin') # Default admin untuk testing
     is_admin_or_organizer = role in ['admin', 'organizer']
+
+    # Ambil parameter search dan filter dari URL
+    search_query = request.GET.get('q', '').lower()
+    venue_filter = request.GET.get('venue_id', '')
+
+    # Filter data kursi
+    filtered_seats = STATIC_SEATS
     
-    total_seats = len(STATIC_SEATS)
-    occupied = sum(1 for seat in STATIC_SEATS if seat['status'] == 'Terisi')
+    if venue_filter:
+        filtered_seats = [seat for seat in filtered_seats if seat['venue_id'] == venue_filter]
+        
+    if search_query:
+        filtered_seats = [
+            seat for seat in filtered_seats 
+            if search_query in seat['section'].lower() or 
+               search_query in seat['row'].lower() or 
+               search_query in seat['number'].lower()
+        ]
+
+    total_seats = len(filtered_seats)
+    occupied = sum(1 for seat in filtered_seats if seat['status'] == 'Terisi')
     available = total_seats - occupied
 
     context = {
-        'seats': sorted(STATIC_SEATS, key=lambda x: (x['venue'], x['section'], x['row'])),
+        'seats': sorted(filtered_seats, key=lambda x: (x['venue'], x['section'], x['row'])),
         'venues': STATIC_VENUES, 
         'total_seats': total_seats,
         'available': available,
         'occupied': occupied,
         'is_admin_or_organizer': is_admin_or_organizer,
+
+        # Kirim kembali parameter ke template untuk mempertahankan state input
+        'search_query': search_query,
+        'current_venue_filter': venue_filter,
     }
     return render(request, 'manage_seats.html', context)
 
