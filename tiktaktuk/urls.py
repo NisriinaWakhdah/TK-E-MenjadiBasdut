@@ -22,5 +22,6 @@ urlpatterns = [
     path('order/', include('order.urls')),
     path('', include('users.urls')),
     path('', include('artist-ticketcategory.urls')),
+    path('promotion/', include('promotion.urls')),
 
 ]

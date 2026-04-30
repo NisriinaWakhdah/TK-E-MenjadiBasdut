@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'tiktaktuk',
     'order',
     'users',
+    'promotion',
 ]
 
 MIDDLEWARE = [

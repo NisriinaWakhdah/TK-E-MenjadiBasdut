@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manajemen Promosi Admin</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-gray-50 p-6 md:p-10">
+
+    <div class="max-w-7xl mx-auto">
+        <!-- Header & Button Buat Promo (Hanya Admin) -->
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-800">Manajemen Promosi</h1>
+                <p class="text-gray-500">Kelola kode promo dan kampanye diskon</p>
+            </div>
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2.5 rounded-xl font-semibold transition-all flex items-center gap-2 shadow-lg shadow-blue-100">
+                <i class="fas fa-plus text-sm"></i> Buat Promo
+            </button>
+        </div>
+
+        <!-- Statistik Ringkasan -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Promo</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_promo }}</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Total Penggunaan</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_penggunaan }}x</p>
+            </div>
+            <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm">
+                <p class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Tipe Persentase</p>
+                <p class="text-3xl font-bold text-gray-800">{{ stats.total_persentase }}</p>
+            </div>
+        </div>
+
+        <!-- Filter & Search -->
+        <div class="flex flex-wrap gap-4 mb-6">
+            <div class="relative flex-grow max-w-sm">
+                <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-400">
+                    <i class="fas fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" onkeyup="filterData()" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 sm:text-sm" placeholder="Cari kode promo...">
+            </div>
+            <select id="typeFilter" onchange="filterData()" 
+                class="block pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-lg border">
+                <option value="SEMUA">Semua Tipe</option>
+                <option value="PERSENTASE">Persentase</option>
+                <option value="NOMINAL">Nominal</option>
+            </select>
+        </div>
+
+        <!-- Tabel Data -->
+        <div class="bg-white rounded-2xl border border-gray-200 shadow-sm overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-gray-50 border-b border-gray-200">
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Kode Promo</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Tipe</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Nilai Diskon</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Mulai</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Berakhir</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest">Penggunaan</th>
+                            <th class="px-6 py-4 text-[11px] font-bold text-gray-400 uppercase tracking-widest text-center"></th>
+                        </tr>
+                    </thead>
+                    <tbody id="promoTableBody" class="divide-y divide-gray-100">
+                        {% for item in promosi %}
+                        <tr class="promo-row hover:bg-gray-50 transition-colors" data-type="{{ item.tipe }}">
+                            <td class="px-6 py-5">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-8 h-8 rounded-lg bg-indigo-50 flex items-center justify-center text-indigo-600 text-xs">
+                                        <i class="fas fa-ticket-alt"></i>
+                                    </div>
+                                    <span class="font-bold text-gray-800 tracking-tight">{{ item.kode }}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-5">
+                                <span class="px-3 py-1 rounded-full text-[10px] font-bold border 
+                                    {% if item.tipe == 'PERSENTASE' %} bg-purple-50 text-purple-600 border-purple-100 
+                                    {% else %} bg-orange-50 text-orange-600 border-orange-100 {% endif %}">
+                                    {{ item.tipe }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-5 font-semibold text-gray-700">{{ item.nilai }}</td>
+                            <td class="px-6 py-5 text-sm text-gray-500">{{ item.mulai }}</td>
+                            <td class="px-6 py-5 text-sm text-gray-500">{{ item.berakhir }}</td>
+                            <td class="px-6 py-5">
+                                <span class="text-sm font-medium text-gray-700">{{ item.terpakai }} / <span class="text-gray-400">{{ item.kuota }}</span></span>
+                            </td>
+                
+                            <td class="px-6 py-5">
+                                <div class="flex justify-center gap-2">
+                                    <button title="Update" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-colors">
+                                        <i class="far fa-edit"></i>
+                                    </button>
+                                    <button title="Delete" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-colors">
+                                        <i class="far fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script Filter & Search -->
+    <script>
+        function filterData() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const typeFilter = document.getElementById('typeFilter').value;
+            const rows = document.querySelectorAll('.promo-row');
+
+            rows.forEach(row => {
+                const kode = row.querySelector('td:first-child').innerText.toLowerCase();
+                const type = row.getAttribute('data-type');
+
+                const matchesSearch = kode.includes(searchInput);
+                const matchesType = (typeFilter === 'SEMUA' || type === typeFilter);
+
+                if (matchesSearch && matchesType) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            });
+        }
+    </script>
+</body>
+</html>
