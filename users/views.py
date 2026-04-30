@@ -293,7 +293,7 @@ def profile_customer(request):
                 request.session['display_name'] = new_username 
                 messages.success(request, "Username berhasil diperbarui.")
 
-            return redirect('profile-customer')  
+            return redirect('profile_customer')  
 
         # =========================
         # UPDATE PASSWORD
@@ -319,7 +319,7 @@ def profile_customer(request):
                 user_data['password'] = new_pass
                 messages.success(request, "Password berhasil diperbarui.")
 
-            return redirect('profile-customer')
+            return redirect('profile_customer')
 
     return render(request, 'profile_customer.html', {
         'user': user_data
@@ -354,7 +354,7 @@ def profile_organizer(request):
                 request.session['display_name'] = new_name
                 request.session['email'] = new_email
                 messages.success(request, "Profil berhasil diperbarui.")
-            return redirect('profile-organizer')
+            return redirect('profile_organizer')
 
         # =========================
         # UPDATE PASSWORD
@@ -373,7 +373,7 @@ def profile_organizer(request):
             else:
                 user_data['password'] = new_pass
                 messages.success(request, "Password berhasil diperbarui.")
-            return redirect('profile-organizer')
+            return redirect('profile_organizer')
 
     return render(request, 'profile_organizer.html', {'user': user_data})
 
@@ -411,7 +411,7 @@ def profile_admin(request):
                 request.session['display_name'] = new_username
                 messages.success(request, "Username berhasil diperbarui.")
 
-            return redirect('profile-admin')
+            return redirect('profile_admin')
 
         # =========================
         # UPDATE PASSWORD
@@ -437,7 +437,7 @@ def profile_admin(request):
                 user_data['password'] = new_pass
                 messages.success(request, "Password berhasil diperbarui.")
 
-            return redirect('profile-admin')
+            return redirect('profile_admin')
 
     return render(request, 'profile_admin.html', {
         'user': user_data
