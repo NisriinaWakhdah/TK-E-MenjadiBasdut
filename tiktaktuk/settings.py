@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'venue',
     'event',
     'seat',
+    'ticket',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +75,7 @@ TEMPLATES = [
             BASE_DIR / 'templates',
             BASE_DIR / 'users' / 'templates',
             BASE_DIR / 'seat' / 'templates',
+            BASE_DIR / 'ticket' / 'templates',
             BASE_DIR / 'artist-ticketcategory' / 'templates',
             BASE_DIR / 'order' / 'templates',
             BASE_DIR / 'venue' / 'templates',

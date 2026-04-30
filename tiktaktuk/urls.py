@@ -26,4 +26,5 @@ urlpatterns = [
     path('venue/', include('venue.urls')),
     path('event/', include('event.urls')),
     path('seat/', include('seat.urls')),
+    path('ticket/', include('ticket.urls')),
 ]
