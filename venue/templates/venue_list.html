@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 
 {% block content %}
 <div class="main-content">
@@ -27,32 +28,29 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for venue in venues %}
                     <tr>
-                        <td>V001</td>
-                        <td>Gelora Bung Karno</td>
-                        <td>Jl. Pintu Satu Senayan</td>
-                        <td>Jakarta Pusat</td>
-                        <td>77,000</td>
+                        <td>{{ venue.id }}</td>
+                        <td>{{ venue.name }}</td>
+                        <td>{{ venue.address }}</td>
+                        <td>{{ venue.city }}</td>
+                        <td>{{ venue.capacity|intcomma }}</td>
                         {% if request.session.role in 'admin,organizer' %}
                         <td class="action-cell">
-                            <a href="#" class="action-icon edit" title="Edit">✎</a>
-                            <a href="#" class="action-icon delete" title="Delete">🗑</a>
+                            <a href="{% url 'venue_update' venue.id %}" class="action-icon edit" title="Edit">✎</a>
+                            
+                            <form action="{% url 'venue_delete' venue.id %}" method="POST" style="display:inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="action-icon delete" title="Delete" style="border:none; background:transparent;">🗑</button>
+                            </form>
                         </td>
                         {% endif %}
                     </tr>
+                    {% empty %}
                     <tr>
-                        <td>V002</td>
-                        <td>ICE BSD</td>
-                        <td>Jl. BSD Grand Boulevard</td>
-                        <td>Tangerang</td>
-                        <td>10,000</td>
-                        {% if request.session.role in 'admin,organizer' %}
-                        <td class="action-cell">
-                            <a href="#" class="action-icon edit">✎</a>
-                            <a href="#" class="action-icon delete">🗑</a>
-                        </td>
-                        {% endif %}
+                        <td colspan="6" class="text-center text-secondary" style="padding: 2rem;">Belum ada data venue.</td>
                     </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
