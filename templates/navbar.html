@@ -1,8 +1,10 @@
 {% with role=request.session.role|default:'guest' %}
 <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm mb-4">
     <div class="container">
-        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#" style="color: var(--accent-primary) !important;">
-            <div style="width: 32px; height: 32px; background: var(--accent-primary); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;">
+        <a class="navbar-brand d-flex align-items-center gap-2 fw-bold" href="#"
+            style="color: var(--accent-primary) !important;">
+            <div
+                style="width: 32px; height: 32px; background: var(--accent-primary); color: white; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 700;">
                 TT
             </div>
             <span style="line-height: 1; transform: translateY(1px);">TikTakTuk</span>
@@ -10,60 +12,60 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto align-items-center">
-                
+            <ul class="navbar-nav me-auto align-items-center">      
                 {% if role == 'admin' %}
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Semua Order</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'orders-admin' %}">Semua Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
                 {% endif %}
 
                 {% if role == 'organizer' %}
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Event Saya</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Semua Order</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Event Saya</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Manajemen Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'orders-organizer' %}">Semua Order</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Tiket (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Order (Aset)</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Profile</a></li>
                 {% endif %}
 
                 {% if role == 'customer' %}
-                    <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Tiket Saya</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Pesanan</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="#">Cari Event</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'orders/customer' %}">Promosi</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Venue</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{% url 'artist_list' %}">Artis</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Tiket Saya</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'orders-customer' %}">Pesanan</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Cari Event</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'promotion-all' %}">Promosi</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'artist_list' %}">Artis</a></li>
                 {% endif %}
             </ul>
 
             <ul class="navbar-nav align-items-center">
-                {% if role == 'admin' or role == 'organizer' %}
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary ms-2" href="#">Profile</a>
-                    </li>
-                {% elif role == 'customer' %}
-                    <li class="nav-item">
-                        <a class="btn btn-outline-danger ms-2" href="{% url '#' %}">Logout</a>
-                    </li>
+                {% if role == 'admin' or role == 'organizer' or role == 'customer' %}
+                <li class="nav-item">
+                    <a class="btn btn-outline-danger ms-2" href="{% url 'logout' %}">Logout</a>
+                </li>
+                
                 {% else %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'login' %}" style="font-size: 0.95rem; font-weight: 600; color: var(--accent-primary) !important;">Login</a>
-                    </li>
-                    <li class="nav-item ms-3">
-                        <a class="btn btn-primary" href="{% url 'register_role' %}" style="padding: 0.5rem 1.25rem;">Registrasi</a>
-                    </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'login' %}"
+                        style="font-size: 0.95rem; font-weight: 600; color: var(--accent-primary) !important;">Login</a>
+                </li>
+                <li class="nav-item ms-3">
+                    <a class="btn btn-primary" href="{% url 'register_role' %}"
+                        style="padding: 0.5rem 1.25rem;">Registrasi</a>
+                </li>
                 {% endif %}
             </ul>
         </div>

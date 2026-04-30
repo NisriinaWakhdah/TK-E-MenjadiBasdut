@@ -7,6 +7,9 @@ STATIC_USERS = [
     {'id': '3', 'username': 'customer', 'email': 'customer@ui.ac.id', 'password': 'password123', 'role': 'Customer'},
 ]
 
+def homepage_view(request):
+    return render(request, 'homepage.html')
+
 def login_view(request):
     if request.session.get('user_id'):
         return redirect('/')
