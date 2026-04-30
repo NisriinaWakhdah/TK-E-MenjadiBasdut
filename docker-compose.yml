@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres:15
+    container_name: tiktaktuk_db_container
+    environment:
+      POSTGRES_USER: nadine_user
+      POSTGRES_PASSWORD: nadine_password
+      POSTGRES_DB: tiktaktuk_db
+    ports:
+      - "5432:5432"
+    volumes:
+      # Trik otomatis: semua file .sql di folder ini akan langsung dijalankan saat startup
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

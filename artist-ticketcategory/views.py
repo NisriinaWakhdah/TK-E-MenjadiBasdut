@@ -82,7 +82,7 @@ def artist_delete(request, artist_id):
         
     if request.method == 'POST':
         global STATIC_ARTISTS
-        STATIC_ARTISTS[:] = [a for a in STATIC_ARTISTS if a['id'] != artist_id]
+        STATIC_ARTISTS[:] = [a for a in STATIC_ARTISTS if str(a['id']) != str(artist_id)]
         messages.success(request, "Artis berhasil dihapus.")
         
     return redirect('artist_list')
@@ -173,7 +173,7 @@ def ticket_category_delete(request, category_id):
         
     if request.method == 'POST':
         global STATIC_CATEGORIES
-        STATIC_CATEGORIES[:] = [c for c in STATIC_CATEGORIES if c['id'] != category_id]
+        STATIC_CATEGORIES[:] = [c for c in STATIC_CATEGORIES if str(c['id']) != str(category_id)]
         messages.success(request, "Kategori tiket berhasil dihapus.")
         
     return redirect('ticket_category_list')

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
-{% block title %}{% if category %}Edit Kategori Tiket{% else %}Tambah Kategori Tiket Baru{% endif %} - TikTokTicket{% endblock %}
+{% block title %}{% if category %}Edit Kategori Tiket{% else %}Tambah Kategori Tiket Baru{% endif %}{% endblock %}
 
 {% block content %}
 
 <div class="container fade-in-up" style="padding-top: 1rem; padding-bottom: 4rem;">
-<div class="page-header">
+<div class="page-header" style="max-width: 600px; margin: 0 auto;">
     <div>
         <a href="{% url 'ticket_category_list' %}" style="display: inline-flex; align-items: center; gap: 0.5rem; color: var(--text-secondary); font-size: 0.9rem; margin-bottom: 1rem;">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -21,7 +21,7 @@
     </div>
 </div>
 
-<div class="glass-panel" style="max-width: 600px;">
+<div class="glass-panel" style="max-width: 600px; margin: 0 auto; margin-top: 2rem;">
     {% if form_errors %}
     <div style="background: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger); padding: 1rem; margin-bottom: 1.5rem; border-radius: 4px;">
         <h4 style="color: var(--danger); margin-bottom: 0.5rem; font-family: 'Inter';">Gagal Menyimpan</h4>
