@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'promotion',
     'venue',
     'event',
+    'seat',
 ]
 
 MIDDLEWARE = [
@@ -71,8 +72,9 @@ TEMPLATES = [
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
             BASE_DIR / 'templates',
-            BASE_DIR / 'artist-ticketcategory' / 'templates',
             BASE_DIR / 'users' / 'templates',
+            BASE_DIR / 'seat' / 'templates',
+            BASE_DIR / 'artist-ticketcategory' / 'templates',
             BASE_DIR / 'order' / 'templates',
             BASE_DIR / 'venue' / 'templates',
             BASE_DIR / 'event' / 'templates',

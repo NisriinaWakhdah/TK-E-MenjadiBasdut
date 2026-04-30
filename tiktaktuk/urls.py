@@ -25,4 +25,5 @@ urlpatterns = [
     path('promotion/', include('promotion.urls')),
     path('venue/', include('venue.urls')),
     path('event/', include('event.urls')),
+    path('seat/', include('seat.urls')),
 ]
