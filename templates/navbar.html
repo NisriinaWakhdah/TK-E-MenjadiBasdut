@@ -16,7 +16,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">      
                 {% if role == 'admin' %}
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard-admin' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
@@ -28,7 +28,7 @@
                 {% endif %}
 
                 {% if role == 'organizer' %}
-                <li class="nav-item"><a class="nav-link active" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link active" href="{% url 'dashboard-organizer' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Event Saya</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Venue</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
@@ -41,7 +41,7 @@
                 {% endif %}
 
                 {% if role == 'customer' %}
-                <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'dashboard-customer' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Tiket Saya</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'orders-customer' %}">Pesanan</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Cari Event</a></li>

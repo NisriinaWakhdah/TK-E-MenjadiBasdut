@@ -26,6 +26,9 @@ def login_view(request):
             request.session['role'] = user['role'].lower()
             request.session['email'] = user['email']
 
+            display_name = user.get('organizer_name') or user.get('full_name') or user['username']
+            request.session['display_name'] = display_name
+
             messages.success(request, f"Login berhasil! Selamat datang, {user['username']}.")
             return redirect('/')
         else:
@@ -143,3 +146,115 @@ def register_admin_view(request):
         messages.success(request, "Akun berhasil dibuat! Silakan login.")
         return redirect('login')
     return render(request, 'register_admin.html')
+
+from django.shortcuts import render
+
+def admin_dashboard(request):
+    # Data Dummy untuk Statistik Utama
+    stats = {
+        'total_pengguna': '2,543',
+        'total_acara': 156,
+        'omzet': '52.4M',
+        'promo_aktif': 3,
+    }
+
+    # Data Dummy untuk Infrastruktur Venue
+    venue_info = {
+        'total_lokasi': 3,
+        'reserved_seating': 2,
+        'kapasitas_max': '1,000',
+    }
+
+    # Data Dummy untuk Marketing & Promosi
+    marketing_info = {
+        'promo_persentase': 1,
+        'promo_nominal': 1,
+        'total_penggunaan': 57,
+    }
+
+    context = {
+        'stats': stats,
+        'venue_info': venue_info,
+        'marketing_info': marketing_info,
+    }
+    
+    return render(request, 'dashboard_admin.html', context)
+
+def organizer_dashboard(request):
+    if request.session.get('role') != 'organizer':
+        messages.error(request, "Anda tidak memiliki akses ke halaman ini.")
+        return redirect('login')
+    
+    nama_user = request.session.get('display_name', 'Penyelenggara')
+
+    stats = {
+        'nama_organizer': nama_user,
+        'acara_aktif': 3,
+        'tiket_terjual': '1,243',
+        'revenue': '4.8M',
+        'venue_mitra': 3,
+    }
+
+    daftar_acara = [
+        {
+            'nama': 'Konser Melodi Senja',
+            'status': 'LIVE',
+            'persentase': '85%',
+            'lokasi': 'Jakarta Convention Center'
+        },
+        {
+            'nama': 'Festival Seni Budaya',
+            'status': 'LIVE',
+            'persentase': '85%',
+            'lokasi': 'Taman Impian Jayakarta'
+        },
+        {
+            'nama': 'Malam Akustik Bandung',
+            'status': 'LIVE',
+            'persentase': '85%',
+            'lokasi': 'Bandung Hall Center'
+        }
+    ]
+
+    context = {
+        'stats': stats,
+        'daftar_acara': daftar_acara,
+    }
+    
+    return render(request, 'dashboard_organizer.html', context)
+
+def customer_dashboard(request):
+    if request.session.get('role') != 'customer':
+        messages.error(request, "Anda tidak memiliki akses ke halaman ini.")
+        return redirect('login')
+
+    nama_user = request.session.get('display_name', 'Customer')
+
+    stats = {
+        'nama_customer': nama_user,
+        'tiket_aktif': 2,
+        'acara_diikuti': 12,
+        'kode_promo': 3,
+        'total_belanja': '1.6M',
+    }
+    incoming_tickets = [
+        {
+            'nama': 'Konser Melodi Senja',
+            'kategori': 'WVIP',
+            'tanggal': '15 Mei 2024',
+            'lokasi': 'Jakarta Convention Center'
+        },
+        {
+            'nama': 'Festival Seni Budaya',
+            'kategori': 'GENERAL',
+            'tanggal': '22 Mei 2024',
+            'lokasi': 'Taman Impian Jayakarta'
+        }
+    ]
+
+    context = {
+        'stats': stats,
+        'tiket_mendatang': incoming_tickets,
+    }
+    
+    return render(request, 'dashboard_customer.html', context)
