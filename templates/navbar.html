@@ -18,7 +18,7 @@
                 {% if role == 'admin' %}
                 <li class="nav-item"><a class="nav-link" href="#">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link active" href="#">Manajemen Venue</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'manage_seats' %}">Manajemen Kursi</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
                 <li class="nav-item"><a class="nav-link" href="{% url 'orders-admin' %}">Semua Order</a></li>
