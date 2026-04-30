@@ -22,15 +22,105 @@ STATIC_SEATS_TICKET = [
 # Dummy Data Ticket
 STATIC_TICKETS = [
     {
-        'id': 'TTK-EVT001-VIP-001',
-        'order_id': 'ord_001',
-        'customer_name': 'Budi Santoso',
-        'event_name': 'Konser Melodi Senja',
-        'schedule': '2024-05-15 19:00',
-        'venue': 'Jakarta Convention Center',
-        'seat': 'VIP - Baris B, No. 1',
-        'price': 750000,
-        'status': 'Valid'
+        'id': 'TTK-EVT001-VIP-001', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris B, No. 1', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-002', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris B, No. 2', 'price': 750000, 'status': 'Terpakai'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-003', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris B, No. 3', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-004', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris B, No. 4', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-005', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris B, No. 5', 'price': 750000, 'status': 'Terpakai'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-006', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris C, No. 1', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-007', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris C, No. 2', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-008', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris C, No. 3', 'price': 750000, 'status': 'Terpakai'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-009', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris C, No. 4', 'price': 750000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT001-VIP-010', 'order_id': 'ord_001', 'customer_name': 'Budi Santoso',
+        'event_name': 'Konser Melodi Senja', 'schedule': '2024-05-15 19:00',
+        'venue': 'Jakarta Convention Center', 'seat': 'VIP - Baris C, No. 5', 'price': 750000, 'status': 'Valid'
+    },
+
+    {
+        'id': 'TTK-EVT002-GEN-001', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-002', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-003', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Terpakai'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-004', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-005', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-006', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Terpakai'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-007', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-008', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-009', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
+    },
+    {
+        'id': 'TTK-EVT002-GEN-010', 'order_id': 'ord_002', 'customer_name': 'Siti Rahayu',
+        'event_name': 'Festival Seni Budaya', 'schedule': '2024-05-22 10:00',
+        'venue': 'Taman Impian Jayakarta', 'seat': 'Tanpa Kursi', 'price': 150000, 'status': 'Valid'
     },
 ]
 
