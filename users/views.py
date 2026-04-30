@@ -293,7 +293,7 @@ def profile_customer(request):
                 request.session['display_name'] = new_username 
                 messages.success(request, "Username berhasil diperbarui.")
 
-            return redirect('profile_customer')  
+            return redirect('profile-customer')  
 
         # =========================
         # UPDATE PASSWORD
@@ -319,7 +319,7 @@ def profile_customer(request):
                 user_data['password'] = new_pass
                 messages.success(request, "Password berhasil diperbarui.")
 
-            return redirect('profile_customer')
+            return redirect('profile-customer')
 
     return render(request, 'profile_customer.html', {
         'user': user_data
