@@ -116,58 +116,61 @@
                     <button onclick="openModal('edit-modal-{{ ticket.id }}')" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem; flex: 1;">Update</button>
                     <button onclick="openModal('delete-modal-{{ ticket.id }}')" class="btn btn-outline" style="font-size: 0.8rem; padding: 0.5rem; color: #e74c3c; border-color: #e74c3c; flex: 1;">Hapus</button>
                 </div>
-
-                <!-- Modal Edit Ticket -->
-                <div id="edit-modal-{{ ticket.id }}" class="modal-overlay">
-                    <div class="modal-content">
-                        <h3 class="modal-title">Update Tiket</h3>
-                        <form method="POST" action="{% url 'ticket_update' ticket.id %}">
-                            {% csrf_token %}
-                            <div class="form-group">
-                                <label class="form-label">KODE TIKET</label>
-                                <input type="text" class="form-control" value="{{ ticket.id }}" disabled style="background-color: var(--bg-secondary);">
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">STATUS</label>
-                                <select name="status" class="form-control" required>
-                                    <option value="Valid" {% if ticket.status == 'Valid' %}selected{% endif %}>Valid</option>
-                                    <option value="Terpakai" {% if ticket.status == 'Terpakai' %}selected{% endif %}>Terpakai</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="form-label">KURSI</label>
-                                <select name="seat" class="form-control">
-                                    <option value="Tanpa Kursi" {% if ticket.seat == 'Tanpa Kursi' %}selected{% endif %}>Tanpa Kursi</option>
-                                    {% for seat in seats %}
-                                    <option value="{{ seat.label }}" {% if ticket.seat == seat.label %}selected{% endif %}>{{ seat.label }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                            <div class="modal-actions">
-                                <button type="button" onclick="closeModal('edit-modal-{{ ticket.id }}')" class="btn btn-outline">Batal</button>
-                                <button type="submit" class="btn btn-primary">Simpan</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- Modal Delete Ticket -->
-                <div id="delete-modal-{{ ticket.id }}" class="modal-overlay">
-                    <div class="modal-content">
-                        <h3 class="modal-title">Hapus Tiket</h3>
-                        <p>Apakah Anda yakin ingin menghapus tiket ini? Relasi kursi akan dilepaskan. Tindakan ini tidak dapat dibatalkan.</p>
-                        <div class="modal-actions">
-                            <button type="button" onclick="closeModal('delete-modal-{{ ticket.id }}')" class="btn btn-outline">Batal</button>
-                            <form method="POST" action="{% url 'ticket_delete' ticket.id %}" style="display:inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="btn btn-danger">Hapus</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
                 {% endif %}
             </div>
         </div>
+
+        {% if can_update_delete %}
+        <!-- Modal Edit Ticket -->
+        <div id="edit-modal-{{ ticket.id }}" class="modal-overlay">
+            <div class="modal-content">
+                <h3 class="modal-title">Update Tiket</h3>
+                <form method="POST" action="{% url 'ticket_update' ticket.id %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label class="form-label">KODE TIKET</label>
+                        <input type="text" class="form-control" value="{{ ticket.id }}" disabled style="background-color: var(--bg-secondary);">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">STATUS</label>
+                        <select name="status" class="form-control" required>
+                            <option value="Valid" {% if ticket.status == 'Valid' %}selected{% endif %}>Valid</option>
+                            <option value="Terpakai" {% if ticket.status == 'Terpakai' %}selected{% endif %}>Terpakai</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">KURSI</label>
+                        <select name="seat" class="form-control">
+                            <option value="Tanpa Kursi" {% if ticket.seat == 'Tanpa Kursi' %}selected{% endif %}>Tanpa Kursi</option>
+                            {% for seat in seats %}
+                            <option value="{{ seat.label }}" {% if ticket.seat == seat.label %}selected{% endif %}>{{ seat.label }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="modal-actions">
+                        <button type="button" onclick="closeModal('edit-modal-{{ ticket.id }}')" class="btn btn-outline">Batal</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal Delete Ticket -->
+        <div id="delete-modal-{{ ticket.id }}" class="modal-overlay">
+            <div class="modal-content">
+                <h3 class="modal-title">Hapus Tiket</h3>
+                <p>Apakah Anda yakin ingin menghapus tiket ini? Relasi kursi akan dilepaskan. Tindakan ini tidak dapat dibatalkan.</p>
+                <div class="modal-actions">
+                    <button type="button" onclick="closeModal('delete-modal-{{ ticket.id }}')" class="btn btn-outline">Batal</button>
+                    <form method="POST" action="{% url 'ticket_delete' ticket.id %}" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
         {% empty %}
         <div class="glass-panel" style="text-align: center; padding: 3rem;">
             <p style="color: var(--text-secondary);">Tidak ada tiket yang ditemukan.</p>

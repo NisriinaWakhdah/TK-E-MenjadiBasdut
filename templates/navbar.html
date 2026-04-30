@@ -17,7 +17,7 @@
             <ul class="navbar-nav me-auto align-items-center">      
                 {% if role == 'admin' %}
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'dashboard-admin' %}active{% endif %}" href="{% url 'dashboard-admin' %}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Manajemen Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'venue_list' %}">Manajemen Venue</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'manage_seats' %}active{% endif %}" href="{% url 'manage_seats' %}">Manajemen Kursi</a></li>
                 <li class="nav-item"><a class="nav-link {% if 'artist' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'artist_list' %}">Manajemen Artis</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'ticket_category_list' %}active{% endif %}" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
@@ -30,8 +30,8 @@
 
                 {% if role == 'organizer' %}
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'dashboard-organizer' %}active{% endif %}" href="{% url 'dashboard-organizer' %}">Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Event Saya</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Manajemen Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'event_list' %}">Event Saya</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'venue_list' %}">Manajemen Venue</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Kursi</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'ticket_category_list' %}active{% endif %}" href="{% url 'ticket_category_list' %}">Kategori Tiket</a></li>
                 <li class="nav-item"><a class="nav-link" href="#">Manajemen Tiket</a></li>
@@ -45,9 +45,9 @@
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'dashboard-customer' %}active{% endif %}" href="{% url 'dashboard-customer' %}">Dashboard</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'ticket_category_list' %}active{% endif %}" href="{% url 'ticket_category_list' %}">Tiket Saya</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'orders-customer' %}active{% endif %}" href="{% url 'orders-customer' %}">Pesanan</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Cari Event</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'event_list' %}">Cari Event</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'promotion-all' %}active{% endif %}" href="{% url 'promotion-all' %}">Promosi</a></li>
-                <li class="nav-item"><a class="nav-link" href="#">Venue</a></li>
+                <li class="nav-item"><a class="nav-link" href="{% url 'venue_list' %}">Venue</a></li>
                 <li class="nav-item"><a class="nav-link {% if 'artist' in request.resolver_match.url_name %}active{% endif %}" href="{% url 'artist_list' %}">Artis</a></li>
                 <li class="nav-item"><a class="nav-link {% if request.resolver_match.url_name == 'profile-customer' %}active{% endif %}" href="{% url 'profile-customer' %}">Profile</a></li>
                 {% endif %}
