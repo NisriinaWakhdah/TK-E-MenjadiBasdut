@@ -50,6 +50,8 @@ INSTALLED_APPS = [
     'order',
     'users',
     'promotion',
+    'venue',
+    'event',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +74,8 @@ TEMPLATES = [
             BASE_DIR / 'artist-ticketcategory' / 'templates',
             BASE_DIR / 'users' / 'templates',
             BASE_DIR / 'order' / 'templates',
+            BASE_DIR / 'venue' / 'templates',
+            BASE_DIR / 'event' / 'templates',
         ],
         'APP_DIRS': True,
         'OPTIONS': {

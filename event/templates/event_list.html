@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="main-content">
+    <div class="page-header fade-in-up">
+        <h1 class="page-title">Jelajahi Acara</h1>
+        {% if request.session.role in 'admin,organizer' %}
+        <a href="{% url 'event_create' %}" class="btn btn-primary">
+            + Buat Acara
+        </a>
+        {% endif %}
+    </div>
+
+    <div class="glass-panel mb-4 fade-in-up" style="animation-delay: 0.1s; padding: 1.5rem;">
+        <form class="row g-3">
+            <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="Cari judul acara atau artis...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-control">
+                    <option value="">Filter Venue...</option>
+                    <option value="gbk">Gelora Bung Karno</option>
+                    <option value="ice">ICE BSD</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-control">
+                    <option value="">Filter Artis...</option>
+                    <option value="coldplay">Coldplay</option>
+                    <option value="tulus">Tulus</option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Cari</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="row g-4 fade-in-up" style="animation-delay: 0.2s;">
+        <div class="col-md-4">
+            <div class="glass-panel h-100 d-flex flex-column" style="padding: 1.5rem;">
+                <div class="mb-3 d-flex justify-content-between align-items-start">
+                    <span class="badge badge-purple">Konser Musik</span>
+                    {% if request.session.role in 'admin,organizer' %}
+                    <a href="#" class="action-icon edit" style="padding: 0.2rem;">✎</a>
+                    {% endif %}
+                </div>
+                <h3 class="mb-2" style="font-size: 1.25rem;">Harmoni Jakarta 2026</h3>
+                <p class="text-secondary mb-1" style="font-size: 0.9rem;">📅 15 Agustus 2026 • 19:00 WIB</p>
+                <p class="text-secondary mb-3" style="font-size: 0.9rem;">📍 Gelora Bung Karno</p>
+                <p class="text-secondary mb-3" style="font-size: 0.9rem;">🎤 <strong>Artis:</strong> Tulus, Raisa</p>
+                
+                <div class="mt-auto pt-3" style="border-top: 1px solid var(--border-color);">
+                    <p class="text-secondary mb-1" style="font-size: 0.85rem;">Mulai dari</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h4 style="color: var(--success); margin: 0;">Rp 500.000</h4>
+                        <a href="#" class="btn btn-outline" style="padding: 0.4rem 1rem; font-size: 0.85rem;">Detail</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+</div>
+{% endblock %}
