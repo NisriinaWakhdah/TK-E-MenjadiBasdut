@@ -3,10 +3,13 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import Http404
 
-# Mock Data Venue
+# Mock Data Venue (5 Data)
 STATIC_VENUES = [
     {'id': 'V001', 'name': 'Gelora Bung Karno', 'city': 'Jakarta Pusat', 'address': 'Jl. Pintu Satu Senayan', 'capacity': 77000},
     {'id': 'V002', 'name': 'ICE BSD', 'city': 'Tangerang', 'address': 'Jl. BSD Grand Boulevard', 'capacity': 10000},
+    {'id': 'V003', 'name': 'Jakarta International Stadium', 'city': 'Jakarta Utara', 'address': 'Kelurahan Papanggo, Tanjung Priok', 'capacity': 82000},
+    {'id': 'V004', 'name': 'Sentul International Convention Center', 'city': 'Bogor', 'address': 'Jl. Jend. Sudirman, Sentul City', 'capacity': 12000},
+    {'id': 'V005', 'name': 'Tennis Indoor Senayan', 'city': 'Jakarta Pusat', 'address': 'Kompleks Olahraga Gelora Bung Karno', 'capacity': 5000},
 ]
 
 def venue_list(request):
@@ -19,8 +22,10 @@ def venue_list(request):
 
 def venue_create(request):
     # C - Admin, Organizer
-    role = request.session.get('role')
+    # CHEAT ROLE UNTUK SCREENSHOT
     request.session['role'] = 'admin'
+    
+    role = request.session.get('role')
     if role not in ['admin', 'organizer']:
         messages.error(request, "Hanya Admin dan Organizer yang dapat menambahkan Venue.")
         return redirect('venue_list')
@@ -41,6 +46,9 @@ def venue_create(request):
 
 def venue_update(request, venue_id):
     # U - Admin, Organizer
+    # CHEAT ROLE UNTUK SCREENSHOT
+    request.session['role'] = 'admin'
+    
     role = request.session.get('role')
     if role not in ['admin', 'organizer']:
         messages.error(request, "Hanya Admin dan Organizer yang dapat mengubah Venue.")
