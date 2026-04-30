@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Organizer Dashboard - Orders</title>
+    <title>Admin Dashboard - Orders</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -87,7 +87,7 @@
                         <td class="px-6 py-4 text-sm font-bold text-gray-900 text-right">Rp {{ order.total }}</td>
                         <td class="px-6 py-4 text-center">
                             <div class="flex justify-center gap-3 text-gray-400">
-                                <button class="hover:text-blue-600 transition-colors"><i class="far fa-edit"></i></button>
+                                <button onclick="openModal('{{order.order_id}}')" class="hover:text-blue-600 transition-colors"><i class="far fa-edit"></i></button>
                                 <button class="hover:text-red-600 transition-colors"><i class="far fa-trash-alt"></i></button>
                             </div>
                         </td>
@@ -97,6 +97,83 @@
             </table>
         </div>
     </div>
+
+    <!-- MODAL OVERLAY -->
+    <div id="updateModal" class="hidden fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4">
+        <div class="modal-content bg-white rounded-[32px] p-8 w-full max-w-sm shadow-2xl relative">
+            
+            <!-- Tombol Close (X) -->
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-gray-400 hover:text-gray-600 transition-colors">
+                <i class="fas fa-times text-xl"></i>
+            </button>
+
+            <!-- Header Modal -->
+            <h2 class="text-xl font-bold text-gray-800 mb-1">Update Status Order</h2>
+            <p id="modalOrderId" class="text-sm font-mono text-gray-400 mb-6">ord_xxx</p>
+
+            <!-- Form Update -->
+            <form action="#" method="POST">
+                <label class="block text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">
+                    Payment Status
+                </label>
+                
+                <div class="relative mb-8">
+                    <select id="payment_status" name="payment_status" 
+                        class="w-full appearance-none border border-gray-200 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white text-gray-700 cursor-pointer">
+                        <option value="Lunas">Lunas</option>
+                        <option value="Pending">Pending</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
+                    </select>
+                    
+                    <!-- Icon Panah Custom -->
+                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-gray-500">
+                        <i class="fas fa-chevron-down text-xs"></i>
+                    </div>
+                </div>
+
+                <!-- Footer Modal Buttons -->
+                <div class="flex gap-3 mt-4">
+                    <button type="button" onclick="closeModal()" 
+                        class="flex-1 py-3 border border-gray-200 rounded-2xl font-semibold text-gray-700 hover:bg-gray-50 transition-all text-sm">
+                        Batal
+                    </button>
+                    <button type="submit" 
+                        class="flex-1 py-3 bg-blue-600 rounded-full font-semibold text-white hover:bg-blue-700 shadow-lg shadow-blue-200 transition-all text-sm">
+                        Update
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT UNTUK MODAL -->
+    <script>
+        function openModal(orderId) {
+            const modal = document.getElementById('updateModal');
+            const idDisplay = document.getElementById('modalOrderId');
+            
+            // Mengeset ID Order di dalam modal sesuai tombol yang diklik
+            idDisplay.innerText = orderId;
+            
+            // Menampilkan modal
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden'; // Mengunci scroll layar utama
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('updateModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto'; // Aktifin scroll
+        }
+
+        // Tutup modal jika user klik di area luar card
+        window.onclick = function(event) {
+            const modal = document.getElementById('updateModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
+    </script>
 
 </body>
 </html>
