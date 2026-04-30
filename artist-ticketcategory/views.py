@@ -22,10 +22,10 @@ STATIC_CATEGORIES = [
 ]
 
 def artist_list(request):
-    if not request.user.is_authenticated:
-        return redirect('/login')
+    if not request.session.get('user_id'):
+        return redirect('login')
         
-    is_admin = getattr(request.user, 'is_superuser', False)
+    is_admin = request.session.get('role') == 'admin'
     sorted_artists = sorted(STATIC_ARTISTS, key=lambda x: x['name'])
         
     context = {
@@ -35,7 +35,7 @@ def artist_list(request):
     return render(request, 'artist_list.html', context)
 
 def artist_create(request):
-    is_admin = getattr(request.user, 'is_superuser', False)
+    is_admin = request.session.get('role') == 'admin'
     if not is_admin:
         messages.error(request, "Hanya Admin yang dapat menambahkan artis.")
         return redirect('artist_list')
@@ -53,7 +53,7 @@ def artist_create(request):
     return render(request, 'artist_form.html')
 
 def artist_update(request, artist_id):
-    is_admin = getattr(request.user, 'is_superuser', False)
+    is_admin = request.session.get('role') == 'admin'
     if not is_admin:
         messages.error(request, "Hanya Admin yang dapat mengubah data artis.")
         return redirect('artist_list')
@@ -75,7 +75,7 @@ def artist_update(request, artist_id):
     return render(request, 'artist_form.html', context)
 
 def artist_delete(request, artist_id):
-    is_admin = getattr(request.user, 'is_superuser', False)
+    is_admin = request.session.get('role') == 'admin'
     if not is_admin:
         messages.error(request, "Hanya Admin yang dapat menghapus artis.")
         return redirect('artist_list')
@@ -88,7 +88,9 @@ def artist_delete(request, artist_id):
     return redirect('artist_list')
 
 def ticket_category_list(request):
-    is_admin_or_organizer = getattr(request.user, 'is_superuser', False)
+    if not request.session.get('user_id'):
+        return redirect('login')
+    is_admin_or_organizer = request.session.get('role') in ['admin', 'organizer']
     sorted_categories = sorted(STATIC_CATEGORIES, key=lambda x: (x['event_name'], x['name']))
         
     context = {
@@ -98,7 +100,7 @@ def ticket_category_list(request):
     return render(request, 'ticket_category_list.html', context)
 
 def ticket_category_create(request):
-    is_admin_or_organizer = getattr(request.user, 'is_superuser', False)
+    is_admin_or_organizer = request.session.get('role') in ['admin', 'organizer']
     if not is_admin_or_organizer:
         messages.error(request, "Hanya Admin dan Organizer yang dapat menambahkan kategori tiket.")
         return redirect('ticket_category_list')
@@ -133,7 +135,7 @@ def ticket_category_create(request):
     return render(request, 'ticket_category_form.html', context)
 
 def ticket_category_update(request, category_id):
-    is_admin_or_organizer = getattr(request.user, 'is_superuser', False)
+    is_admin_or_organizer = request.session.get('role') in ['admin', 'organizer']
     if not is_admin_or_organizer:
         messages.error(request, "Akses ditolak.")
         return redirect('ticket_category_list')
@@ -164,7 +166,7 @@ def ticket_category_update(request, category_id):
     return render(request, 'ticket_category_form.html', context)
 
 def ticket_category_delete(request, category_id):
-    is_admin_or_organizer = getattr(request.user, 'is_superuser', False)
+    is_admin_or_organizer = request.session.get('role') in ['admin', 'organizer']
     if not is_admin_or_organizer:
         messages.error(request, "Akses ditolak.")
         return redirect('ticket_category_list')
